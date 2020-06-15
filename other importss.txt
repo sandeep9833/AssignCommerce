@@ -1,0 +1,34 @@
+
+Adding values to my new attributes for products
+
+$productCatalog=hybrisProductCatalog
+  
+  
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$supercategories=supercategories(code, $catalogVersion)
+$baseProduct=baseProduct(code,$catalogVersion)
+$approved=approvalstatus(code)[default='approved']
+$taxGroup=Europe1PriceFactory_PTG(code)[default=jp-vat-full]
+  
+# Insert Products
+INSERT_UPDATE Product;code[unique=true];$supercategories;manufacturerName;manufacturerAID;unit(code);Status(code);discountText;ean;variantType(code);$catalogVersion;$approved;$taxGroup
+ ;0001;100;Mugs & Co;MUG-1;pieces;new;Add This Product to get 10% discount;
+ ;0002;100;Mugs & Co;PEN-1;pieces;Renewed;Add This Product to get 10% discount;
+ ;0003;100;Mugs & Co;PAD-A5;pieces;used;Add This Product to get 10% discount;
+ ;0004;100;Mugs & Co;PAD-A4;pieces;new;Add This Product to get 10% discount;
+ ;0005;100;Mugs & Co;LANYARD;pieces;Renewed;Add This Product to get 10% discount;
+ ;0006;100;Mugs & Co;USB-STICK;pieces;Renewed;Add This Product to get 10% discount;
+ ;0007;100;Mugs & Co;WIESNHERZ;pieces;used;Add This Product to get 10% discount;
+ ;0100;210;Clothes & Co;SHIRT-WHITE-M-S;pieces;new;Add This Product to get 10% discount;
+ ;0101;210;Clothes & Co;SHIRT-WHITE-M-M;pieces;used;Add This Product to get 10% discount;
+ ;0102;210;Clothes & Co;SHIRT-WHITE-M-L;pieces;Renewed;Add This Product to get 10% discount;
+ ;0110;210;Clothes & Co;SHIRT-WHITE-F-S;pieces;used;Add This Product to get 10% discount;
+ ;0111;210;Clothes & Co;SHIRT-WHITE-F-M;pieces;new;Add This Product to get 10% discount;
+ ;0112;210;Clothes & Co;SHIRT-WHITE-F-L;pieces;used;Add This Product to get 10% discount;
+ ;0200;220;Clothes & Co;SWEAT-WHITE-M-S;pieces;used;Add This Product to get 10% discount;
+ ;0201;220;Clothes & Co;SWEAT-WHITE-M-M;pieces;Renewed;Add This Product to get 10% discount;
+ ;0202;220;Clothes & Co;SWEAT-WHITE-M-L;pieces;new;Add This Product to get 10% discount;
+ ;0210;220;Clothes & Co;SWEAT-WHITE-F-S;pieces;used;Add This Product to get 10% discount;
+ ;0211;220;Clothes & Co;SWEAT-WHITE-F-M;pieces;Renewed;Add This Product to get 10% discount;
+ ;0212;220;Clothes & Co;SWEAT-WHITE-F-L;pieces;new;Add This Product to get 10% discount;
+

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2000-2013 hybris AG
+ All rights reserved.
+
+ This software is the confidential and proprietary information of hybris
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with hybris.
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+	<bean id="rangedAvgCustomerRatingProvider" class="de.hybris.merchandise.search.providers.MerchandiseProductReviewAverageRatingValueProvider" parent="productReviewAverageRatingValueProvider" />
+
+  <bean id="filterBasedOnEnumProvider" class="de.hybris.merchandise.search.providers.FilterBasedOnEnumProvider" parent="productReviewAverageRatingValueProvider" />  
+
+	<!--  <bean id="filterBasedOnEnumProvider"
+	      class="de.hybris.merchandise.search.providers.FilterBasedOnEnumProvider"
+	       parent="abstractPropertyFieldValueProvider">
+	</bean> -->
+
+<!-- 	<bean id="statusFacetDisplayNameProvider"
+	      class="de.hybris.merchandise.search.providers.StatusFacetDisplayNameProvider"
+	      >
+		<property name="enumerationService" ref="enumerationService"/>
+		<property name="i18nService" ref="i18nService"/>
+		<property name="commonI18NService" ref="commonI18NService"/>
+	</bean>  -->
+	
+
+	<!-- <bean id="filterBasedOnEnumProvider"
+	      class="de.hybris.merchandise.search.providers.FilterBasedOnEnumProvider"
+	      >
+		<property name="enumerationService" ref="enumerationService"/>
+		<property name="i18nService" ref="i18nService"/>
+		<property name="commonI18NService" ref="commonI18NService"/>
+	</bean> -->
+
+	
+
+
+	<bean id="hybridCustomersPrepareInterceptor" class="de.hybris.merchandise.servicelayer.interceptor.HybridsCustomersPrepareInterceptor">
+        <property name="userGroupDao" ref="userGroupDao"/>
+    </bean>
+ 
+    <bean id="hybridCustomersPrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="hybridCustomersPrepareInterceptor"/>
+        <property name="typeCode" value="Customer"/>
+    </bean>
+
+	 <alias name="merchandiseOrderCancelStateMappingStrategy" alias="defaultOrderCancelStateMappingStrategy"/>
+    <bean id="merchandiseOrderCancelStateMappingStrategy" class="de.hybris.merchandise.ordercancel.impl.MerchandiseOrderCancelStateMappingStrategy" scope="prototype"/>
+
+
+	<!-- <bean id="customLetterComparator" class="de.hybris.merchandise.search.comparators.CustomLetterComparator" />
+
+	SORT PROVIDER
+	<bean id="customFacetNameSortByLetterG" class="de.hybris.platform.solrfacetsearch.config.impl.DefaultFacetSortProvider">
+		<property name="comparator" ref="customLetterComparator"/>
+		<property name="descending" value="false"/>
+	</bean> -->
+
+
+	<!--
+	The hybris platform provides one single Spring application context for beans located at the jalo layer.
+	Each extension can add beans to this context by specifying them at this configuration file.
+	 
+	You can use and/or redefine beans defined at configuration files of other extensions as well as
+	adding new one.
+		
+	If you want to locate this file at a different location or want to use several files for better,
+	structuring, please use the '<yourextension>.application-context' property at your project.properties file.
+	There you can specify a comma separated list of files where first is tried to find a file per classpath and
+	then per file system.
+
+	
+	If you want to configure beans for your web module please have a look at
+	your web/webroot/WEB-INF/<extname>-web-spring.xml.
+	-->
+	
+	<!--  Example how to override a manager -->
+	<!--
+	<bean id="core.productManager"   class="de.hybris.merchandise.jalo.MerchandisecommerceservicesProductManager" 	init-method="init"	destroy-method="destroy" />
+	-->
+	
+	
+ 	<!--  Example how to configure the class to use for jalo session creation -->
+	<!--
+	<bean id="jalosession"   class="de.hybris.platform.jalo.JaloSessionFactory">
+		<property name="targetClassName" value="de.hybris.merchandise.jalo.MerchandisecommerceservicesJaloSession"/>
+	</bean>
+	-->
+
+	
+	<!--  Example how to override an item  -->
+	<!-- 
+	<bean id="de.hybris.platform.jalo.product.Product" class="de.hybris.merchandise.jalo.MerchandisecommerceservicesProduct" scope="prototype" />		
+ 	-->
+
+	<!--  
+	 Example how to register and use an AOP aspect 
+     Also see http://static.springframework.org/spring/docs/2.5.x/reference/aop.html	
+     -->
+	
+	<!-- 
+	<bean id="merchandisecommerceservicesProfBean" class="de.hybris.merchandise.aop.MerchandisecommerceservicesProfilingAspect"/>
+	<aop:config proxy-target-class="true">
+  		<aop:aspect id="merchandisecommerceservicesProfAspect" ref="merchandisecommerceservicesProfBean" >
+    	  <aop:pointcut id="profiledMethods" 
+	      	expression="execution(* getModificationTime(..))" />  	            
+	   		<aop:around pointcut-ref="profiledMethods" method="profile" />
+  		</aop:aspect>
+	</aop:config>
+	 -->
+
+	
+	<!-- some other examples of a pointcut that matches everything:
+
+    	  <aop:pointcut id="profiledMethods" 
+	      	expression="bean(de.hybris.platform.jalo.user.Customer) &amp;&amp; 
+	      	            !execution(* getPK(..))" />  	            
+	       <aop:pointcut id="profiledMethods" expression="execution(* *(..))" />	
+	  -->
+	
+			
+			
+</beans>
